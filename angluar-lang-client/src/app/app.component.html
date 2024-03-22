@@ -1,5 +1,9 @@
 <h2>Monaco Language Client Angular Client Example</h2>
-<div>
-    <div id="monaco-editor-root" class="monaco-editor"></div>
-    <button (click)="handleOnTextChanged()"> save </button>
-</div>
+
+<monaco-editor-angular [userConfig]="userConfig" (onTextChanged)="onTextChanged($event)"></monaco-editor-angular>
+
+
+ng two ways data binding demo
+<code>
+    {{text}}
+</code>
