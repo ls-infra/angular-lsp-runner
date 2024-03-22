@@ -3,36 +3,44 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angluar-lang-client": {
+    "angular-client": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/angluar-lang-client",
+            "outputPath": "dist/angular-client",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
+            "tsConfig": "tsconfig.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "./node_modules/monaco-editor-wrapper/dist",
+                "output": "assets/monaco-editor-wrapper/dist"
+              }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "styles": [],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.js"
+            },
+            "allowedCommonJsDependencies": [
+              "vscode-jsonrpc",
+              "vscode-languageclient",
+              "vscode-languageserver-protocol",
+              "vscode-semver",
+              "vscode-oniguruma",
+              "vscode-textmate",
+              "vscode-marked"
+            ]
           },
           "configurations": {
             "production": {
@@ -51,21 +59,24 @@
               "outputHashing": "all"
             },
             "development": {
+              "buildOptimizer": false,
               "optimization": false,
+              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angluar-lang-client:build:production"
+              "browserTarget": "angular-client:build:production"
             },
             "development": {
-              "buildTarget": "angluar-lang-client:build:development"
+              "browserTarget": "angular-client:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,29 +84,13 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angluar-lang-client:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "browserTarget": "angular-client:build"
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

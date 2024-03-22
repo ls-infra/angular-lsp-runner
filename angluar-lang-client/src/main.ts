@@ -1,6 +1,12 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
+/* --------------------------------------------------------------------------------------------
+ * Copyright (c) 2023 TypeFox GmbH (http://www.typefox.io). All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the package root for license information.
+ * ------------------------------------------------------------------------------------------ */
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/app.module';
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch((err: Error) => {
+        console.error(err);
+    });

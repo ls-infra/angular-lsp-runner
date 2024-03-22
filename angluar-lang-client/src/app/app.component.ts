@@ -1,5 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AfterViewInit, Component } from '@angular/core'; 
 import getKeybindingsServiceOverride from '@codingame/monaco-vscode-keybindings-service-override';
 // this is required syntax highlighting
 import '@codingame/monaco-vscode-groovy-default-extension';
@@ -8,29 +7,27 @@ import { startEditor } from 'monaco-languageclient-examples';
 import { UserConfig } from 'monaco-editor-wrapper';
 
 import { useWorkerFactory } from 'monaco-editor-wrapper/workerFactory';
+useWorkerFactory({
+  rootPath: window.location.href + '../..',
+  basePath: '../assets',
+});
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent  implements AfterViewInit{
+export class MonacoEditorComponent  implements AfterViewInit{
   title = 'angluar-lang-client';
 
   async ngAfterViewInit(): Promise<void> {
-    configureMonacoWorkers();
+
     runGroovyClient();
 }
 }
 
 
-export const configureMonacoWorkers = () => {
-  useWorkerFactory({
-      basePath: '../../../node_modules'
-  });
-};
+
 
 const code = `package test.org;
 import java.io.File ;
